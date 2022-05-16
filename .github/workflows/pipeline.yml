@@ -26,3 +26,7 @@ jobs:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: ${{secrets.HEROKU_APP}}
         heroku_email: ${{secrets.HEROKU_EMAIL}}
+    - name: Run bash script
+      run : |
+          chmod +x "${GITHUB_WORKSPACE}/.github/script.sh"
+          "${GITHUB_WORKSPACE}/.github/script.sh"
