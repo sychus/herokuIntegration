@@ -1,8 +1,6 @@
 name: Destroy heroku App
 on:
-  push:
-    branches:
-      - master
+  push
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,7 +25,11 @@ jobs:
       if: steps.branch-name.outputs.is_default == 'true'
       run: |
           echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
-    - name: Run destroy script
-      run : |
-          chmod +x "${GITHUB_WORKSPACE}/.github/destroy.sh"
-          "${GITHUB_WORKSPACE}/.github/destroy.sh ${{ steps.branch-name.outputs.current_branch }}"
+    - name: Use action heroku
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_email: ${{secrets.HEROKU_EMAIL}}
+        justlogin: true
+    - run: |
+          heroku apps:destroy ${{secrets.HEROKU_APP}}-${{ steps.branch-name.outputs.current_branch }}
