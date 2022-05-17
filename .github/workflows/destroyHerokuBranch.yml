@@ -4,7 +4,7 @@ on:
     types:
       - closed
     branches:
-      - main
+      - develop
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,10 +15,6 @@ jobs:
     - name: Get branch name
       id: branch-name
       uses: tj-actions/branch-names@v5.2
-    - name: Print branch name
-      if: steps.branch-name.outputs.is_default == 'true'
-      run: |
-          echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
     - name: Use action heroku
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
