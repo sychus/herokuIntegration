@@ -1,6 +1,8 @@
 name: Destroy heroku App
 on:
-  delete
+  push:
+    branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
