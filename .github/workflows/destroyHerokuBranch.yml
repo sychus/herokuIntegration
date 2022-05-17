@@ -32,4 +32,4 @@ jobs:
         heroku_email: ${{secrets.HEROKU_EMAIL}}
         justlogin: true
     - run: |
-          heroku apps:destroy ${{secrets.HEROKU_APP}}-${{ steps.branch-name.outputs.current_branch }}
+          heroku apps:destroy ${{secrets.HEROKU_APP}}-${{ steps.branch-name.outputs.current_branch }} --confirm ${{secrets.HEROKU_APP}}-${{ steps.branch-name.outputs.current_branch }}
