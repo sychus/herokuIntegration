@@ -1,6 +1,6 @@
 name: Pipeline
 on:
-  push
+  create
 jobs:
   build:
     runs-on: ubuntu-latest
