@@ -1,1 +1,1 @@
-echo "Destroy branch" $1
+echo "Destroy branch $1"
