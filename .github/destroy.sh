@@ -1,1 +1,0 @@
-echo "Destroy branch $1"
