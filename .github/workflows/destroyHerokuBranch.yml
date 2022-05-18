@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
     - uses: actions/checkout@v3
       with:
@@ -25,14 +22,15 @@ jobs:
     - name: Get branch name
       id: branch-name
       uses: tj-actions/branch-names@v5.2
-    - name: Print branch currently name
-      if: steps.branch-name.outputs.is_default == 'true'
-      run: |
-          echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
-    - name: Run bash script to custom app name
+    - name: Parse branch name
       run : |
-          chmod +x "${GITHUB_WORKSPACE}/.github/verifyBranchName.sh"
-          "${GITHUB_WORKSPACE}/.github/verifyBranchName.sh" ${{ steps.branch-name.outputs.current_branch }}
+          branch_original_name=${{ steps.branch-name.outputs.current_branch }}
+          echo $branch_original_name
+          branch_name=$(echo $branch_original_name | cut -d '/' -f 2)
+          echo $branch_name
+          branchNameUntil30Chars=${branch_name:0:30}
+          heroku_name="bt-events-"$branchNameUntil30Chars
+          echo "CUSTOM_NAME=$heroku_name" >> $GITHUB_ENV
     - name: Use action heroku
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
