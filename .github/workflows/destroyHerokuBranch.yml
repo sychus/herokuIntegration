@@ -21,8 +21,8 @@ jobs:
           echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
     - name: Run bash script to custom app name
       run : |
-          chmod +x "${GITHUB_WORKSPACE}/.github/nameCheck.sh"
-          "${GITHUB_WORKSPACE}/.github/nameCheck.sh" ${{ steps.branch-name.outputs.current_branch }}
+          chmod +x "${GITHUB_WORKSPACE}/.github/verifyBranchName.sh"
+          "${GITHUB_WORKSPACE}/.github/verifyBranchName.sh" ${{ steps.branch-name.outputs.current_branch }}
     - name: Use action heroku
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
