@@ -1,13 +1,8 @@
 name: Destroy heroku App
 on:
-  pull_request:
-    types:
-      - closed
-    branches:
-      - develop
+  push
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  build:
     runs-on: ubuntu-latest
     steps:
     - name: Get branch name
@@ -19,11 +14,11 @@ jobs:
           branch_prefix=$(echo $branch_original_name | cut -d '/' -f 1)
           branch_name=$(echo $branch_original_name | cut -d '/' -f 2)
           branchNameUntil30Chars=${branch_name:0:30}
-          heroku_name=$branch_prefix"/bt-events-"$branchNameUntil30Chars
+          heroku_name="bt-events-"$branchNameUntil30Chars
           echo "CUSTOM_NAME=$heroku_name" >> $GITHUB_ENV
-    - name: Required pattern name
-      if: $branch_prefix == "feature" || $branch_prefix == "bugfix" || $branch_prefix == "hotfix"  
-    - name: Use action heroku
+          echo "CUSTOM_PREFIX"=$branch_prefix >> $GITHUB_ENV
+    - name: Required pattern name to remove heroku app
+      if: ${{env.CUSTOM_PREFIX}} != "feature" || ${{env.CUSTOM_PREFIX}} != "bugfix" || ${{env.CUSTOM_PREFIX}} != "hotfix"  
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
