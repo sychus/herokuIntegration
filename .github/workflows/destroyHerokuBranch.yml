@@ -29,6 +29,9 @@ jobs:
         heroku_email: ${{secrets.HEROKU_EMAIL}}
         justlogin: true
     - name: Required pattern name to remove heroku app  
-      if: ${{env.CUSTOM_PREFIX}} == "feature" || ${{env.CUSTOM_PREFIX}} == "bugfix" || ${{env.CUSTOM_PREFIX}} == "hotfix" 
+      id: removeApps  
       run: |
-          heroku apps:destroy ${{env.CUSTOM_NAME}} --confirm ${{env.CUSTOM_NAME}}
+            if [[ ${{env.CUSTOM_PREFIX}} == "feature" || ${{env.CUSTOM_PREFIX}} == "bugfix" || ${{env.CUSTOM_PREFIX}} == "hotfix" ]]; then
+                heroku apps:destroy ${{env.CUSTOM_NAME}} --confirm ${{env.CUSTOM_NAME}}
+            fi
+          
