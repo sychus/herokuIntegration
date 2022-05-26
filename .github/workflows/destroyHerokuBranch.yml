@@ -21,8 +21,9 @@ jobs:
           branchNameUntil30Chars=${branch_name:0:30}
           heroku_name="bt-events-"$branchNameUntil30Chars
           echo "CUSTOM_NAME=$heroku_name" >> $GITHUB_ENV
+          echo "CUSTOM_PREFIX"=$branch_prefix >> $GITHUB_ENV
     - name: Required pattern name to remove heroku app
-      if: $branch_prefix == "feature" || $branch_prefix == "bugfix" || $branch_prefix == "hotfix"  
+      if: ${{env.CUSTOM_PREFIX}} == "feature" || ${{env.CUSTOM_PREFIX}} == "bugfix" || ${{env.CUSTOM_PREFIX}} == "hotfix"  
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
